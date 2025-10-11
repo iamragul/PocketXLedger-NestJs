@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Controller, Post, Req } from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
 
 import { UsersService } from './users.service';
@@ -9,7 +9,7 @@ export class UsersController {
 
   @Public()
   @Post('/webhooks')
-  webhooks(@Body() payload: any) {
-    return this.usersService.handleWebhooks(payload);
+  async webhooks(@Req() request: Request) {
+    return this.usersService.handleWebhooks(request);
   }
 }
