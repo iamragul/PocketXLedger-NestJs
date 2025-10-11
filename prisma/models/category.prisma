@@ -1,0 +1,20 @@
+model Category {
+  id          String        @id @default(uuid()) @db.Uuid
+  name        String
+  icon        String
+  type        CategoryType
+  user_id     String        @db.Uuid
+  active      Boolean       @default(true)
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  user        User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Transaction Transaction[]
+
+  @@index([user_id])
+  @@map("categories")
+}
+
+enum CategoryType {
+  INCOME
+  EXPENSE
+}

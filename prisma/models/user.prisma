@@ -1,0 +1,17 @@
+model User {
+  id          String        @id @default(uuid()) @db.Uuid
+  email       String        @unique
+  active      Boolean       @default(true)
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  Category    Category[]
+  Transaction Transaction[]
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
