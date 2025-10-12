@@ -1,4 +1,5 @@
 import { Controller, Post, Req } from '@nestjs/common';
+import type { Request } from 'express';
 import { Public } from 'src/auth/decorators/public.decorator';
 
 import { UsersService } from './users.service';
@@ -9,7 +10,7 @@ export class UsersController {
 
   @Public()
   @Post('/webhooks')
-  async webhooks(@Req() request: Request) {
+  async webhooks(@Req() request: Request & { rawBody?: Buffer }) {
     return this.usersService.handleWebhooks(request);
   }
 }

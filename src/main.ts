@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { rawBody: true });
   app.use(morgan('dev'));
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());

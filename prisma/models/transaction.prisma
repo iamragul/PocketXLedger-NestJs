@@ -4,7 +4,7 @@ model Transaction {
   description String?
   date        DateTime
   category_id String   @db.Uuid
-  user_id     String   @db.Uuid
+  user_id     String
 
   type       TransactionType
   active     Boolean         @default(true)
