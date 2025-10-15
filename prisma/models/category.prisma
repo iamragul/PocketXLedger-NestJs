@@ -3,7 +3,7 @@ model Category {
   name        String
   icon        String
   type        CategoryType
-  user_id     String       
+  user_id     String
   active      Boolean       @default(true)
   created_at  DateTime      @default(now())
   updated_at  DateTime      @updatedAt
@@ -17,4 +17,8 @@ model Category {
 enum CategoryType {
   INCOME
   EXPENSE
+  INVESTMENT
+  SAVINGS
+  DEBT
+  TRANSFER
 }
