@@ -1,27 +1,55 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 
 @Injectable()
 export class TransactionsService {
-  create(createTransactionDto: CreateTransactionDto) {
-    return 'This action adds a new transaction';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(userId: string, createTransactionDto: CreateTransactionDto) {
+    const transaction = await this.prisma.transaction.create({
+      data: {
+        user_id: userId,
+        amount: createTransactionDto.amount,
+        type: createTransactionDto.type,
+        category_id: createTransactionDto.category_id,
+        date: createTransactionDto.date,
+        description: createTransactionDto.description,
+        payment_method: createTransactionDto.payment_method,
+      },
+    });
+    return { transaction };
   }
 
-  findAll() {
-    return `This action returns all transactions`;
+  async findAll() {
+    const transactions = await this.prisma.transaction.findMany();
+    return { transactions };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} transaction`;
+  async findAllByUser(userId: string) {
+    const transactions = await this.prisma.transaction.findMany({
+      where: { user_id: userId, active: true },
+    });
+    return { transactions };
   }
 
-  update(id: number, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
+  async findOne(id: string) {
+    const transaction = await this.prisma.transaction.findUnique({ where: { id } });
+    return { transaction };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} transaction`;
+  async update(id: string, updateTransactionDto: UpdateTransactionDto) {
+    const transaction = await this.prisma.transaction.update({
+      where: { id },
+      data: updateTransactionDto,
+    });
+    return { transaction };
+  }
+
+  async remove(id: string) {
+    await this.prisma.transaction.delete({ where: { id } });
+    return { message: 'Transaction deleted successfully' };
   }
 }

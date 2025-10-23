@@ -17,7 +17,6 @@ export class UsersService {
         throw new BadRequestException('Missing Svix headers');
       }
 
-      // 2) Get exact raw payload string
       const payload = request.rawBody?.toString('utf8') ?? '';
       if (!payload) {
         throw new BadRequestException('Empty raw body');
@@ -88,5 +87,10 @@ export class UsersService {
       console.error('Error handling webhook:', error);
       throw new InternalServerErrorException('Error handling webhook');
     }
+  }
+
+  async findAll() {
+    const users = await this.prisma.user.findMany();
+    return { users };
   }
 }

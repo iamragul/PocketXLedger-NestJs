@@ -9,7 +9,7 @@ model Transaction {
   type            TransactionType
   payment_method  PaymentMethod
   recurring       Boolean         @default(false)
-  recurrence_type RecurrenceType  @default(MONTHLY)
+  recurrence_type RecurrenceType?
   active          Boolean         @default(true)
   created_at      DateTime        @default(now())
   updated_at      DateTime        @updatedAt
